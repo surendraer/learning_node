@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 const db = require("./db");
-
+require("dotenv").config();
 
 
 // syntax to use middleware app.use(express.json())

@@ -30,11 +30,11 @@
 
 // import mongoose 
 const mongoose = require("mongoose");
-
+require("dotenv").config();
 // import the url 
 
-const MongoURL = 'mongodb://localhost:27017/hotels';
-
+// const MongoURL = 'mongodb://localhost:27017/hotels';
+const MongoURL = process.env.DB_URL;
 // create connection 
 
 mongoose.connect(MongoURL);
