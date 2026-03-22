@@ -105,4 +105,15 @@ router.put("/:id", async (req, res) => {
     }
 })
 
+
+
+//profile route
+router.get("/person", jasonmiddleware, async (req,res)=>{
+    const userData = req.user;
+    const userid = userData.id;
+    const user = await person.findById(userid);
+
+    res.status(200).json(user);
+})
+
 module.exports = router;

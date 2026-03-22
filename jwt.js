@@ -26,7 +26,8 @@ const jasonmiddleware = (req,res,next)=>{
 // for token generation
 
 const jwttokengenerator = (userData)=>{
-    return jwttokengenerator.toString(userData, process.env.JWT_SECRET);
+    return jwttokengenerator.toString({userData}, process.env.JWT_SECRET);
+    //use user data as object for expire method better practice
 }
 
 module.exports = {jasonmiddleware,jwttokengenerator} ;
