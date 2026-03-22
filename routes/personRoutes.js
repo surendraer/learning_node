@@ -25,7 +25,29 @@ router.post("/signup", async (req, res) => {
     // newPerson.email = data.email
 })
 
+// login route
+router.post("/login", async (req,res)=>{
 
+    const {username,password} = req.body;
+
+    const user = await person.findOne({username:username});
+
+    if(!user || !(await user.comparePassword(password))){
+        return res.status(500).json({error: "invalid user"});
+    }
+
+    try {
+
+        const token = jwttokengenerator(req.body.email);
+        res.json(token);
+        
+    } catch (error) {
+
+        res.status(500).json({error: "internal server error"});
+        
+    }
+
+})
 
 router.get("/", async (req, res) => {
     try {
