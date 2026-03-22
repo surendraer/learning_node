@@ -1,17 +1,19 @@
 const express = require("express")
 const router = express.Router();
 const person = require("../models/person")
+const {jasonmiddleware,jwttokengenerator} = require("../jwt");
 
-
-router.post("/", async (req, res) => {
+router.post("/signup", async (req, res) => {
 
     try {
         const data = req.body;
 
         const newPerson = new person(data);
         const response = await newPerson.save();
-        console.log("data saved");
-        res.status(200).json(response);
+
+        const token = jwttokengenerator(response.email);
+        console.log("data saved and token is ", token);
+        res.status(200).json({response : response, token: token});
 
     } catch (error) {
         console.log(error);
