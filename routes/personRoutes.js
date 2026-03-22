@@ -1,0 +1,84 @@
+const express = require("express")
+const router = express.Router();
+const person = require("../models/person")
+
+
+router.post("/", async (req, res) => {
+
+    try {
+        const data = req.body;
+
+        const newPerson = new person(data);
+        const response = await newPerson.save();
+        console.log("data saved");
+        res.status(200).json(response);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "error" });
+    }
+    // newPerson.name = data.name;
+    // newPerson.age = data.age;
+    // newPerson.work = data.work;
+    // newPerson.email = data.email
+})
+
+
+
+router.get("/", async (req, res) => {
+    try {
+
+        const data = await person.find();
+        console.log("fetched all data");
+        res.status(200).json(data);
+
+    } catch (error) {
+        console.log("error " + error);
+        res.status(500).json({ error: "error in fetching data" });
+
+    }
+})
+
+
+router.get("/:work", async (req, res) => {
+    try {
+        const worktype = req.params.work;
+        if (worktype == "chef" || worktype == "waiter" || worktype == "owner") {
+
+            const response = await person.find({ work: worktype });
+            console.log("success");
+            res.status(200).json(response);
+        } else {
+            res.status(404).json({ error: "error" });
+        }
+    } catch (error) {
+        console.log("error");
+        res.status(500).json({ error: "error" });
+    }
+})
+
+router.put("/:id", async (req, res) => {
+    try {
+        const personid = req.params.id;
+        const persondata = req.body;
+
+        const response = await person.findByIdAndUpdate(personid, persondata, {
+            new: true,
+            runValidators: true
+        })
+
+        if (!response) {
+            console.log("not found");
+            return res.status(404).json({ error: "person not found" });
+        }
+
+        console.log("person found and updated");
+
+        res.status(200).json(response);
+    } catch (error) {
+        console.log("error in db ")
+        res.status(500).json({ error: "error" });
+    }
+})
+
+module.exports = router;
