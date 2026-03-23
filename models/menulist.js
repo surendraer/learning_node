@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
-
-const menuschema = new mongoose.Schema ({
+//creating schema for menu
+const menuschema = new mongoose.Schema({
 
     name: {
-        type:String,
-        required : true
+        type: String,
+        required: true
     },
     price: {
         type: Number,
-        required:true
+        required: true
     }
 
 })
