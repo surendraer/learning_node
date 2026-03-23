@@ -1,26 +1,26 @@
+//main file
+
 const express = require("express")
 const app = express()
 const db = require("./db");
 require("dotenv").config();
+
+// this is for authorization 
 const passport = require("./auth.js");
 const LocalStrategy = require("passport-local").Strategy;
 
-
-
-// syntax to use middleware app.use(express.json())
+// this is a middleware that parse the body into object and object into json 
 const bodyParser = require("body-parser")
 app.use(bodyParser.json());
-// middle ware
 
-
+// middle ware (customised for printing the logs)
 const logging = (req,res,next)=>{
   console.log(`${new Date().toLocaleTimeString()} accessed ${req.originalUrl}   `)
-  next();
+  next();// this is a callback function 
 }
 app.use(logging);
 
-
-
+// testing route , usually we dont write our routes in server file
 app.get('/',passport.authenticate('local', {session:false}), (req, res) => {
   res.send('Hello World')
 })
