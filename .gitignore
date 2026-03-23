@@ -1,5 +1,6 @@
-node_modules/
+# // this includes the files that we dont want to push
 
+node_modules/
 study/
 .env
 
